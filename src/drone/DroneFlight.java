@@ -117,6 +117,7 @@ public class DroneFlight<T> {
 
 		DroneAPI drone= new DroneImplementation(d.grafo);
 		drone.obtenerIdentificadorUrbanizacion( 35.5,40.511111);
+		drone.obtenerUrbanizaciónes( 35.5,40.511111, 1);
 
 	}
 

@@ -5,12 +5,13 @@ import graph.Graph;
 
 import java.util.List;
 
-public class DroneImplementation<T> implements DroneAPI {
-	private Graph<T> graph;
+public class DroneImplementation implements DroneAPI {
+	private Graph graph;
 	
 
-	public DroneImplementation( Graph<T>  graph) {		
-		this.graph = new Graph<T>();
+	public DroneImplementation( Graph  graph) {		
+		this.graph = graph;
+		System.out.println("AQUI LAS COORDENADAS SON " +this.graph.getCoordenadasId());
 	}	
 
 	
@@ -19,7 +20,6 @@ public class DroneImplementation<T> implements DroneAPI {
 	public String obtenerIdentificadorUrbanizacion(double coordenadaX,
 			double coordenadaY) {
 		
-		 
 	   return this.graph.getUrbanizacion(coordenadaX, coordenadaY);
 	}
 
@@ -28,7 +28,7 @@ public class DroneImplementation<T> implements DroneAPI {
 	public List<String> obtenerUrbanizaciónes(double coordendaX,
 			double coordendaY, int rango) {
 		// TODO Auto-generated method stub
-		return null;
+		return this.graph.obtenerUrbanizaciónes(coordendaX, coordendaY, rango);
 	}
 
 

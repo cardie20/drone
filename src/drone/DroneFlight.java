@@ -1,5 +1,7 @@
 package drone;
 
+import java.util.List;
+
 import graph.Direction;
 import graph.Edge;
 import graph.Graph;
@@ -7,15 +9,20 @@ import graph.Graph;
 
 public class DroneFlight<T> {
 
-	private Graph <T> grafo = new Graph<T>();
-
+	public Graph  grafo = new Graph();
+	
 	public void setUrbanizaions(){
-		double X = 35.5;
-		double Y = 40.511111;
+		double X = 26.5;
+		double Y = 28.5;
 		Urbanizacion ur1,ur2,ur3,ur4 ;
 
-		for ( int i = 1; i < 26; i= i+4){
-			grafo.addVertex(X+0.000001,Y +0.000001,"id"+i);
+		for ( int i = 1; i < 26; i= i+1){
+			if (i == 13){
+				System.out.println("X vale" + X + "Y VALE  "+ Y);
+			}
+			grafo.addVertex(X,Y,"id"+i);
+			X = X+1;
+			Y= Y+1;
 		}
 
 
@@ -107,7 +114,7 @@ public class DroneFlight<T> {
 		}
 
 
-		System.out.println(grafo.toString());
+		
 	}
 
 
@@ -116,9 +123,9 @@ public class DroneFlight<T> {
 		d.setUrbanizaions();
 
 		DroneAPI drone= new DroneImplementation(d.grafo);
-		drone.obtenerIdentificadorUrbanizacion( 35.5,40.511111);
-		drone.obtenerUrbanizaciónes( 35.5,40.511111, 1);
-
+		drone.obtenerIdentificadorUrbanizacion( 38.5,40.5);
+     	List <String>  urbs= drone.obtenerUrbanizaciónes( 35.500001,40.511112, 1);
+		System.out.println(urbs.toString());
 	}
 
 }

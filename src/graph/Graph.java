@@ -1,7 +1,6 @@
 package graph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,7 +10,7 @@ import java.util.Stack;
 
 import drone.Urbanizacion;
 
-public class Graph<T> {
+public class Graph {
 
 
 	private Map <String, String> coordenadasId;
@@ -20,6 +19,37 @@ public class Graph<T> {
 	public Graph(){
 		coordenadasId = new HashMap<String, String >();
 		edges = new HashMap<String, Edge[] >();
+		visitado = new HashMap<String, Boolean>();
+	}
+
+
+	public Map<String, String> getCoordenadasId() {
+		return coordenadasId;
+	}
+
+
+	public void setCoordenadasId(Map<String, String> coordenadasId) {
+		this.coordenadasId = coordenadasId;
+	}
+
+
+	public Map<String, Edge[]> getEdges() {
+		return edges;
+	}
+
+
+	public void setEdges(Map<String, Edge[]> edges) {
+		this.edges = edges;
+	}
+
+
+	public Map<String, Boolean> getVisitado() {
+		return visitado;
+	}
+
+
+	public void setVisitado(Map<String, Boolean> visitado) {
+		this.visitado = visitado;
 	}
 
 
@@ -28,18 +58,22 @@ public class Graph<T> {
 	 * @param string        vertex to add
 	 */
 	public boolean addVertex(double coordenadaX, double coordenadaY, String id) {
-		if (!coordenadasId.containsKey(coordenadaX+","+ coordenadaY)) {
-			coordenadasId.put(coordenadaX+","+ coordenadaY, id);
+		
+		if (!this.coordenadasId.containsKey(coordenadaX+","+ coordenadaY)) {
+			
+			this.coordenadasId.put(coordenadaX+","+ coordenadaY, id);
+			
 			visitado.put(id, false);
+			if (!this.edges.containsKey(id)){
+				this.edges.put(id,  new Edge[4]);
+			}
 		}
-		if (!edges.containsKey(id)){
-			edges.put(id,  new Edge[4]);
-		}
+	
 
 		return true;
 	}
 
-	public String getUrbanizacion (double coordenadaX, double coordenadaY){
+	public String getUrbanizacion (double coordenadaX, double coordenadaY){		
 		return this.coordenadasId.get(coordenadaX+","+coordenadaY);
 	}
 

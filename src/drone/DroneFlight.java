@@ -123,8 +123,20 @@ public class DroneFlight<T> {
 		d.setUrbanizaions();
 
 		DroneAPI drone= new DroneImplementation(d.grafo);
-		drone.obtenerIdentificadorUrbanizacion( 38.5,40.5);
+		System.out.println("ENCONTRADO "+ drone.obtenerIdentificadorUrbanizacion( 38.5,40.5));
+		
+		System.out.println("ENCONTRADO DERECHA "+drone.obtenerIdentificadorAdyacente("id13", Direction.RIGTH));
+		
+		System.out.println("ENCONTRADO UP "+drone.obtenerIdentificadorAdyacente("id13", Direction.UP));
+		System.out.println("ENCONTRADO LEFT "+drone.obtenerIdentificadorAdyacente("id13", Direction.LEFT));
+		System.out.println("ENCONTRADO DOWN "+drone.obtenerIdentificadorAdyacente("id13", Direction.DOWN));
+		//no existe
      	List <String>  urbs= drone.obtenerUrbanizaciónes( 35.500001,40.511112, 1);
+     	
+     	List <String>  urbs2= drone.obtenerUrbanizaciónes(38.5,40.5, 1);
+     	
+     	
+     	
 		System.out.println(urbs.toString());
 	}
 

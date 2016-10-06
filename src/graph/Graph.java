@@ -2,13 +2,9 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
-
-import drone.Urbanizacion;
 
 public class Graph {
 
@@ -137,14 +133,14 @@ public class Graph {
 
 
 		edge = new Edge(srcUrb, weigth,direction.reverse(direction));
-		edgesAdyacency = this.edges.get(srcUrb);
+		edgesAdyacency = this.edges.get(dstUrb);
 		if ( edgesAdyacency == null){
 			edgesAdyacency = new ArrayList<>();
 		}
 
 		if (!edgesAdyacency.contains(edge)){
 			edgesAdyacency.add(edge);
-			this.edges.put(srcUrb, edgesAdyacency);
+			this.edges.put(dstUrb, edgesAdyacency);
 		}
 
 	}
@@ -163,85 +159,68 @@ public class Graph {
 		ArrayList<String> recorridos = new ArrayList<String>();
 
 		if (this.edges.containsKey(nodoI)){
-			
+
 			//El nodo inicial ya está visitado
 			this.visitado.put(nodoI, true);
 
-			//Cola de visitas de los nodos adyacentes
+			//pila de visitas de los nodos adyacentes
 
-			ArrayList<String> cola = new ArrayList<String>();
+			LinkedList<String> pila = new LinkedList<String>();
 
-			//Se lista el nodo como ya recorrido
+			//Se agrega el nodo a la pila de visitas
 
-			recorridos.add(nodoI);
-
-			//Se agrega el nodo a la cola de visitas
-
-			cola.add(nodoI);
+			pila.add(nodoI);
 
 			//Hasta que visite todos los nodos
 
-			while (!cola.isEmpty()) {
+			while (!pila.isEmpty()) {
 
-				String urbj = cola.remove(0); //Se saca el primero nodo de la cola
-
+				//se saca el ultimo de la pila
+				String urbj = pila.remove(pila.size()-1); 
+			
+				//se marca el recorrido
+				recorridos.add(urbj);
+				
 				//Se busca en la matriz que representa el grafo los nodos adyacentes
 
-				ArrayList<Edge> adyacentes = this.edges.get(urbj);
-
-
-				calculate(urbj,Direction.UP,peso,cola,recorridos,visitado);
-				calculate(urbj,Direction.LEFT,peso,cola,recorridos,visitado);
-				calculate(urbj,Direction.RIGTH,peso,cola,recorridos,visitado);
-				calculate(urbj,Direction.DOWN,peso,cola,recorridos,visitado);
-
-
-
+				calculate(urbj,Direction.RIGTH,peso,pila,recorridos,visitado);
+				calculate(urbj,Direction.DOWN,peso,pila,recorridos,visitado);
+				calculate(urbj,Direction.LEFT,peso,pila,recorridos,visitado);
+				calculate(urbj,Direction.UP,peso,pila,recorridos,visitado);
 
 			}
+
+
 		}
-		return recorridos;//Devuelvo el recorrido del grafo en anchura
+		return recorridos;//Devuelvo el recorrido del grafo
 
 	}
 
 
 
-	private void calculate( String urbanizacionOrigen , Direction direccion,int peso,ArrayList<String> cola, ArrayList<String> recorridos,Map<String,Boolean>visitado){
+	private void calculate( String urbanizacionOrigen , Direction direccion,int peso,LinkedList<String> pila, ArrayList<String> recorridos,Map<String,Boolean>visitado){
 
 		if ( getPesoAdyacente(urbanizacionOrigen,direccion) == peso){
 
 			String urbDest= (String)this.getAdyacente(urbanizacionOrigen, direccion);
 			if( !this.visitado.get(urbDest)) {
 
-				cola.add(urbDest);//Se agrega a la cola de visitas
+				pila.add(urbDest);//Se agrega a la pila de visitas
 
-				recorridos.add(urbDest);//Se marca como recorrido
 				this.visitado.put(urbDest, true); //Se marca como visitado
 
 			}
 		}else if (getPesoAdyacente(urbanizacionOrigen,direccion) == -1){
-			String urbDest= (String)this.getAdyacente(urbanizacionOrigen, direccion);
-			if( !this.visitado.get(urbDest)) {
-				this.visitado.put(urbDest, true); //Se marca como visitado
-			}
-		}
-	}
 
-
-
-	public String toString(){
-		StringBuffer a = new StringBuffer();
-		for (String s :this.edges.keySet()) {
-			ArrayList<Edge>edgeA =this.edges.get(s);
-			a.append( " \nSRC "+ s +" ");
-			for (int i =0; i< edgeA.size(); i++){
-				if (edgeA.get(i)!=null){
-					a.append(edgeA.get(i).getDstUrb());
+			String urbDest= this.getAdyacente(urbanizacionOrigen, direccion);
+			if (urbDest!=null){
+				if( !this.visitado.get(urbDest)) {
+					this.visitado.put(urbDest, true); //Se marca como visitado
 				}
-
 			}
-
 		}
-		return a.toString();
 	}
+
+
+
 }

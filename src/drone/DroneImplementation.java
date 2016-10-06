@@ -13,8 +13,6 @@ public class DroneImplementation implements DroneAPI {
 		this.graph = graph;
 		
 	}	
-
-	
 	
 	@Override
 	public String obtenerIdentificadorUrbanizacion(double coordenadaX,

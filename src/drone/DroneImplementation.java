@@ -11,7 +11,7 @@ public class DroneImplementation implements DroneAPI {
 
 	public DroneImplementation( Graph  graph) {		
 		this.graph = graph;
-		System.out.println("AQUI LAS COORDENADAS SON " +this.graph.getCoordenadasId());
+		
 	}	
 
 	
@@ -27,7 +27,7 @@ public class DroneImplementation implements DroneAPI {
 	@Override
 	public List<String> obtenerUrbanizaciónes(double coordendaX,
 			double coordendaY, int rango) {
-		// TODO Auto-generated method stub
+	
 		return this.graph.obtenerUrbanizaciónes(coordendaX, coordendaY, rango);
 	}
 

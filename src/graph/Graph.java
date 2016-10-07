@@ -2,15 +2,31 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+/**
+ * @author erebper
+ *
+ */
+/**
+ * @author erebper
+ *
+ */
+/**
+ * @author erebper
+ *
+ */
 public class Graph {
 
-
+    //Mapa que representa la relacion CoordenadaX-Y tiene 1 Identificador de urbanización
 	private Map <String, String> coordenadasId;
+	//Cada Identificador de urbanización tiene como máximo 4 Aristas Arriba, Abajo, Izq, Derecha
 	private Map<String, ArrayList<Edge>> edges;
+	//Mapa que almacena las Urbanizaciones visitadas
 	private Map <String, Boolean> visitado;
 	public Graph(){
 		coordenadasId = new HashMap<String, String >();
@@ -73,12 +89,18 @@ public class Graph {
 		return this.coordenadasId.get(coordenadaX+","+coordenadaY);
 	}
 
+	
+	/**
+	 * Devuelve la urbanizacón adyacente en funcion de la dirección
+	 * @param id
+	 * @param direccion UP, DOWN, LEFT, RIGHT
+	 * @return String con el ID de urbanización
+	 */
 	public String getAdyacente (String id, Direction direccion){
 
 		if (this.getEdges()!=null){
 			ArrayList<Edge> edges = this.edges.get(id);
 
-			boolean found = false;
 			if (edges != null){
 				for (Edge e : edges){
 					if(e.getDirection() == direccion){
@@ -94,6 +116,12 @@ public class Graph {
 
 	}
 
+	/**
+	 * Devuelve el peso de la arista 
+	 * @param id Urbanización origen
+	 * @param direccion UP, DOWN, LEFT, RIGHT
+	 * @return entero con el peso de la arista
+	 */
 	public int getPesoAdyacente (String id, Direction direccion){
 		if (this.getEdges()!=null){
 			ArrayList<Edge> edges = this.edges.get(id);
@@ -114,11 +142,7 @@ public class Graph {
 
 
 
-
-
 	public void addEdge(String srcUrb, String dstUrb, int weigth, Direction direction){
-
-
 		Edge edge = new Edge(dstUrb, weigth,direction);
 		ArrayList<Edge> edgesAdyacency = this.edges.get(srcUrb);
 		if ( edgesAdyacency == null){
@@ -129,7 +153,6 @@ public class Graph {
 			edgesAdyacency.add(edge);
 			this.edges.put(srcUrb, edgesAdyacency);
 		}
-
 
 
 		edge = new Edge(srcUrb, weigth,direction.reverse(direction));
@@ -145,19 +168,18 @@ public class Graph {
 
 	}
 
-	public List <String> obtenerUrbanizaciónes(double coordendaX, double coordendaY,int rango){
+	public List<String> obtenerUrbanizaciónes(double coordendaX, double coordendaY,int rango){
 		String urbanizacion = this.getUrbanizacion(coordendaX, coordendaY);
 		return recorridoAnchura(urbanizacion,rango);
 	}
 
 
 
-	public ArrayList<String> recorridoAnchura(String nodoI, int peso) {
+	public List<String> recorridoAnchura(String nodoI, int peso) {
 
 		//Lista donde guardo los nodos recorridos
 
 		ArrayList<String> recorridos = new ArrayList<String>();
-
 		if (this.edges.containsKey(nodoI)){
 
 			//El nodo inicial ya está visitado
@@ -200,9 +222,12 @@ public class Graph {
 
 	private void calculate( String urbanizacionOrigen , Direction direccion,int peso,LinkedList<String> pila, ArrayList<String> recorridos,Map<String,Boolean>visitado){
 
-		if ( getPesoAdyacente(urbanizacionOrigen,direccion) == peso){
+		int pesoAdyacente = getPesoAdyacente(urbanizacionOrigen,direccion);
+		String urbDest= this.getAdyacente(urbanizacionOrigen, direccion);
+		
+		if (pesoAdyacente>0 && pesoAdyacente <= peso){
 
-			String urbDest= (String)this.getAdyacente(urbanizacionOrigen, direccion);
+			
 			if( !this.visitado.get(urbDest)) {
 
 				pila.add(urbDest);//Se agrega a la pila de visitas
@@ -210,9 +235,8 @@ public class Graph {
 				this.visitado.put(urbDest, true); //Se marca como visitado
 
 			}
-		}else if (getPesoAdyacente(urbanizacionOrigen,direccion) == -1){
-
-			String urbDest= this.getAdyacente(urbanizacionOrigen, direccion);
+		}else if (pesoAdyacente == -1){
+			
 			if (urbDest!=null){
 				if( !this.visitado.get(urbDest)) {
 					this.visitado.put(urbDest, true); //Se marca como visitado

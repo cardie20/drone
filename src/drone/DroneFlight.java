@@ -1,9 +1,7 @@
 package drone;
 
 import java.util.List;
-
 import graph.Direction;
-import graph.Edge;
 import graph.Graph;
 
 
@@ -14,8 +12,6 @@ public class DroneFlight<T> {
 	public void setUrbanizaions(){
 		double X = 26.5;
 		double Y = 28.5;
-		Urbanizacion ur1,ur2,ur3,ur4 ;
-
 		for ( int i = 1; i < 26; i= i+1){			
 			grafo.addVertex(X,Y,"id"+i);
 			X = X+1;
@@ -93,9 +89,7 @@ public class DroneFlight<T> {
 
 		DroneAPI drone= new DroneImplementation(d.grafo);
 		System.out.println("Urbanizacion "+ drone.obtenerIdentificadorUrbanizacion( 38.5,40.5));
-
 		System.out.println("Urbanizacion DERECHA "+drone.obtenerIdentificadorAdyacente("id13", Direction.RIGTH));
-
 		System.out.println("Urbanizacion UP "+drone.obtenerIdentificadorAdyacente("id13", Direction.UP));
 		System.out.println("Urbanizacion LEFT "+drone.obtenerIdentificadorAdyacente("id13", Direction.LEFT));
 		System.out.println("Urbanizacion DOWN "+drone.obtenerIdentificadorAdyacente("id13", Direction.DOWN));
@@ -103,11 +97,8 @@ public class DroneFlight<T> {
 		List <String>  urbs= drone.obtenerUrbanizaciónes( 35.500001,40.511112, 1);
 		System.out.println("Recorrido1 "+  35.500001+","+ 40.511112 + " "+ urbs.toString());
 		List <String>  urbs2= drone.obtenerUrbanizaciónes(38.5,40.5, 1);
-		System.out.println("Recorrido2 "+  38.5 +","+ 40.5 + " "+ urbs.toString());
+		System.out.println("Recorrido2 "+  38.5 +","+ 40.5 + " "+ urbs2.toString());
 		
-
-
-		System.out.println(urbs2.toString());
 	}
 
 }

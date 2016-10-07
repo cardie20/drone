@@ -1,15 +1,11 @@
 package graph;
 
 public enum Direction {
-	RIGTH (0),
-	LEFT (1),
-	UP (2),
-	DOWN (3);
+	RIGTH ,
+	LEFT ,
+	UP ,
+	DOWN ;
 	 	
-	public int value;
-	Direction(final int value){
-		this.value = value;
-	}
 	
 	public Direction reverse (Direction direction){
 		if (direction.equals(RIGTH)){
